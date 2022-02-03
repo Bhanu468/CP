@@ -1,0 +1,35 @@
+#[454. 4Sum II](https://leetcode.com/problems/4sum-ii/)
+
+##Approach
+unordered_map is an associated container that stores elements formed by the combination of key-value and a mapped value. 
+The key value is used to uniquely identify the element and the mapped value is the content associated with the key.
+Both key and value can be of any type predefined or user-defined. 
+
+Internally unordered_map is implemented using Hash Table, the key provided to map are hashed into indices of a hash table 
+that is why the performance of data structure depends on hash function a lot but on an average, the cost of search, insert and delete from the hash table is O(1). 
+
+condition is nums1[i] + nums2[j] + nums3[k] + nums4[l] == 0 -->eq1
+Inorder to decrease the Time complexity from O(n^4) (since the len of the elements) is n to n^3 we need to remove l loop so i+j+k=0-l
+reducible to n^2 i+j=0-(k+l)
+So we need to sum of i+j as key frequency is val
+next step is after 0-(k+l) if its present then look into val, add this val to count since as many tuples are formed.
+
+##Code:
+class Solution {
+public:
+    int fourSumCount(vector<int>& nums1, vector<int>& nums2, vector<int>& nums3, vector<int>& nums4) {
+        unordered_map<int,int> omp;
+        for(int i: nums1){
+            for(int j: nums2){
+                omp[i+j]++;
+            }
+        }
+        int c=0;
+        for(int k :nums3){
+            for(int l:nums4){
+                c+=omp[0-(k+l)];
+            }
+        }
+    return c;
+    }
+};
